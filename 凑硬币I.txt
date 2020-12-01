@@ -1,0 +1,16 @@
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int max = amount+1;
+        int[] dp = new int[max];
+        Arrays.fill(dp, max);
+        dp[0] = 0;//没有这一步，状态转移方程永远都是在max的基础上加1，故而会得到偏大的结果，然后返回-1
+        for(int i=1; i<max; i++){
+            for(int j=0; j < coins.length; j++){
+                if(coins[j] <= i){//没有这个等号，会使dp[1]无法进入判断语句，没有被更新数据，最后数值偏大，返回-1
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]]+1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+}
